@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "AquaCycle",
+    "slug": "aquacycle",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "aquacycle",
+    "userInterfaceStyle": "automatic",
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
