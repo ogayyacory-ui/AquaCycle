@@ -1,0 +1,21 @@
+import { useState } from "react";
+import { router } from "expo-router";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+const activities = ["Shower", "Laundry", "Dishwashing", "Gardening"];
+
+export default function SimulatorScreen() {
+  const [activity, setActivity] = useState("Shower");
+  const [minutes, setMinutes] = useState(10);
+  const saved = Math.max(0, (minutes - 6) * 6);
+  return <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <View style={styles.topBar}><TouchableOpacity onPress={() => router.back()}><Text style={styles.back}>‹</Text></TouchableOpacity><Text style={styles.title}>Water Simulator</Text><Text style={styles.icon}>◉</Text></View>
+    <View style={styles.hero}><Text style={styles.heroTitle}>Your Impact</Text><Text style={styles.heroText}>Simulate changes and see your water savings.</Text><Text style={styles.drop}>💧</Text></View>
+    <Text style={styles.label}>Select Activity</Text>
+    <View style={styles.options}>{activities.map((item) => <TouchableOpacity key={item} style={[styles.option, activity === item && styles.selected]} onPress={() => setActivity(item)}><Text style={activity === item ? styles.selectedText : styles.optionText}>{item}</Text></TouchableOpacity>)}</View>
+    <View style={styles.card}><Text style={styles.label}>Current Duration</Text><View style={styles.control}><Text style={styles.value}>{minutes} minutes</Text><View style={styles.stepper}><TouchableOpacity onPress={() => setMinutes(Math.max(1, minutes - 1))}><Text style={styles.step}>−</Text></TouchableOpacity><TouchableOpacity onPress={() => setMinutes(minutes + 1)}><Text style={styles.step}>＋</Text></TouchableOpacity></View></View><Text style={styles.label}>New Duration</Text><View style={styles.control}><Text style={styles.value}>{Math.max(1, minutes - 4)} minutes</Text><Text style={styles.tip}>Recommended</Text></View></View>
+    <View style={styles.result}><View><Text style={styles.resultTitle}>You can save</Text><Text style={styles.resultValue}>{saved || 38}</Text><Text style={styles.resultText}>Litres of water per {activity.toLowerCase()}</Text></View><Text style={styles.resultDrop}>💧</Text></View>
+  </ScrollView>;
+}
+
+const styles = StyleSheet.create({ container: { flex: 1, backgroundColor: "#F4F8FE" }, content: { padding: 18, paddingTop: 48, paddingBottom: 35 }, topBar: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }, back: { fontSize: 34, color: "#19304F" }, title: { fontSize: 15, fontWeight: "800", color: "#192F50" }, icon: { fontSize: 22, color: "#1677DD" }, hero: { minHeight: 120, borderRadius: 18, padding: 18, backgroundColor: "#2F86E5", overflow: "hidden" }, heroTitle: { color: "#FFFFFF", fontSize: 18, fontWeight: "800" }, heroText: { color: "#E9F4FF", fontSize: 12, marginTop: 6 }, drop: { fontSize: 58, alignSelf: "flex-end", marginTop: -18 }, label: { color: "#334E70", fontSize: 11, fontWeight: "700", marginBottom: 7 }, options: { flexDirection: "row", flexWrap: "wrap", gap: 8 }, option: { backgroundColor: "#FFFFFF", borderRadius: 10, paddingVertical: 10, paddingHorizontal: 12 }, selected: { backgroundColor: "#DCEEFF", borderWidth: 1, borderColor: "#77ADEF" }, optionText: { color: "#61748D", fontSize: 11 }, selectedText: { color: "#1677DD", fontWeight: "800", fontSize: 11 }, card: { marginTop: 16, backgroundColor: "#FFFFFF", borderRadius: 14, padding: 15 }, control: { minHeight: 42, borderRadius: 10, borderWidth: 1, borderColor: "#E1EAF4", paddingHorizontal: 12, flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }, value: { color: "#19304F", fontWeight: "700", fontSize: 13 }, stepper: { flexDirection: "row", gap: 8 }, step: { color: "#1677DD", backgroundColor: "#EAF3FF", borderRadius: 15, width: 28, height: 28, textAlign: "center", lineHeight: 27, fontSize: 18 }, tip: { color: "#1677DD", fontSize: 10 }, result: { marginTop: 16, borderRadius: 16, backgroundColor: "#CFE5FF", padding: 16, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }, resultTitle: { color: "#245A9D", fontSize: 12 }, resultValue: { color: "#1677DD", fontSize: 34, fontWeight: "800" }, resultText: { color: "#245A9D", fontSize: 11 }, resultDrop: { fontSize: 65 } });
