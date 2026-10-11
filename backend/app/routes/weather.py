@@ -84,4 +84,4 @@ def city_search():
                 "success": False,
                 "error": "Unable to search for the location.",
             }
-        ), 500 
+        ), 500
