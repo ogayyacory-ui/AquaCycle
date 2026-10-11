@@ -1,0 +1,8 @@
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { router } from "expo-router";
+
+export default function ProfileScreen() {
+	return <View style={styles.container}><Text style={styles.eyebrow}>AQUACYCLE</Text><Text style={styles.title}>Profile & help</Text><Text style={styles.subtitle}>Manage your community actions and get help with local water problems.</Text><Pressable style={styles.reportCard} onPress={() => router.push("/report")}><Text style={styles.icon}>!</Text><View style={styles.copy}><Text style={styles.cardTitle}>Report a Problem</Text><Text style={styles.cardText}>Tell the Water Action Network about flooding, pollution, leaks or unsafe water.</Text></View><Text style={styles.arrow}>›</Text></Pressable></View>;
+}
+
+const styles = StyleSheet.create({ container: { flex: 1, backgroundColor: "#F4FBFC", padding: 24, paddingTop: 70 }, eyebrow: { color: "#087EA4", fontSize: 10, fontWeight: "800", letterSpacing: 2 }, title: { color: "#082F49", fontSize: 32, fontWeight: "800", marginTop: 8 }, subtitle: { color: "#64748B", fontSize: 14, lineHeight: 21, marginTop: 9 }, reportCard: { backgroundColor: "#FFFFFF", borderRadius: 18, borderWidth: 1, borderColor: "#D8EEF1", padding: 18, marginTop: 30, flexDirection: "row", alignItems: "center" }, icon: { width: 42, height: 42, borderRadius: 21, backgroundColor: "#FFF0E4", color: "#D96826", textAlign: "center", paddingTop: 9, fontSize: 22, fontWeight: "800" }, copy: { flex: 1, marginLeft: 13 }, cardTitle: { color: "#082F49", fontSize: 16, fontWeight: "800" }, cardText: { color: "#64748B", fontSize: 12, lineHeight: 18, marginTop: 5 }, arrow: { color: "#087EA4", fontSize: 27, marginLeft: 8 } });

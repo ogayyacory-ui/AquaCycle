@@ -61,7 +61,8 @@ def create_report():
         urgency=data["urgency"],
         latitude=data.get("latitude"),
         longitude=data.get("longitude"),
-        photo_url=data.get("photo_url")
+        photo_url=data.get("photo_url"),
+        video_url=data.get("video_url")
     )
 
     db.session.add(report)

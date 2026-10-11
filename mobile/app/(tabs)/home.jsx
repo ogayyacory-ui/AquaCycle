@@ -127,7 +127,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity
           style={styles.secondaryButton}
-          onPress={() => router.push("/(tabs)/report")}
+          onPress={() => router.push("/report")}
         >
           <Text style={styles.secondaryButtonText}>
             🚨 Report a Water Problem
@@ -276,7 +276,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity
           style={styles.reportButton}
-          onPress={() => router.push("/(tabs)/report")}
+          onPress={() => router.push("/report")}
         >
           <Text style={styles.reportButtonText}>
             Report a Problem →

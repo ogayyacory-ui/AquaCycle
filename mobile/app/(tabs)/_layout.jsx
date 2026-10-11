@@ -29,6 +29,13 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
+        name="weather"
+        options={{
+          title: "Weather",
+        }}
+      />
+
+      <Tabs.Screen
         name="events"
         options={{
           title: "Events",
@@ -39,13 +46,6 @@ export default function TabLayout() {
         name="map"
         options={{
           title: "Water Map",
-        }}
-      />
-
-      <Tabs.Screen
-        name="report"
-        options={{
-          title: "Report",
         }}
       />
 

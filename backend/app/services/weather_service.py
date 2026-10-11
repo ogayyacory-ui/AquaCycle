@@ -120,6 +120,32 @@ def normalize_weather(data):
 
     current_code = current.get("weather_code")
 
+    hourly = data.get("hourly", {})
+    hourly_forecast = []
+    hourly_times = hourly.get("time", [])
+    hourly_temperatures = hourly.get("temperature_2m", [])
+    hourly_codes = hourly.get("weather_code", [])
+    hourly_precipitation = hourly.get("precipitation_probability", [])
+
+    for index, time in enumerate(hourly_times[:24]):
+        hourly_forecast.append({
+            "time": time,
+            "temperature": _number(
+                hourly_temperatures[index]
+                if index < len(hourly_temperatures)
+                else None
+            ),
+            "weatherCode": hourly_codes[index] if index < len(hourly_codes) else None,
+            "condition": weather_condition(
+                hourly_codes[index] if index < len(hourly_codes) else None
+            ),
+            "precipitationProbability": (
+                hourly_precipitation[index]
+                if index < len(hourly_precipitation)
+                else None
+            ),
+        })
+
     return {
         "location": {
             "latitude": _number(data.get("latitude")),
@@ -128,11 +154,18 @@ def normalize_weather(data):
         },
         "current": {
             "temperature": _number(current.get("temperature_2m")),
+            "feelsLike": _number(current.get("apparent_temperature")),
+            "humidity": _number(current.get("relative_humidity_2m")),
             "precipitation": _number(current.get("precipitation")),
             "windSpeed": _number(current.get("wind_speed_10m")),
+            "windDirection": _number(current.get("wind_direction_10m")),
+            "precipitationProbability": _number(
+                current.get("precipitation_probability")
+            ),
             "weatherCode": current_code,
             "condition": weather_condition(current_code),
         },
+        "hourly": hourly_forecast,
         "forecast": forecast,
         "units": {
             "temperature": "°C",
@@ -150,9 +183,18 @@ def get_weather(latitude, longitude):
         "longitude": longitude,
         "current": (
             "temperature_2m,"
+            "apparent_temperature,"
+            "relative_humidity_2m,"
             "precipitation,"
             "weather_code,"
-            "wind_speed_10m"
+            "wind_speed_10m,"
+            "wind_direction_10m,"
+            "precipitation_probability"
+        ),
+        "hourly": (
+            "temperature_2m,"
+            "weather_code,"
+            "precipitation_probability"
         ),
         "daily": (
             "weather_code,"
@@ -163,7 +205,7 @@ def get_weather(latitude, longitude):
             "sunrise,"
             "sunset"
         ),
-        "forecast_days": 5,
+        "forecast_days": 7,
         "timezone": "auto",
     }
 

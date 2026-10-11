@@ -1,2 +1,51 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+backend/instance/*.db
 
+# Environment
+.env
+.env.*
+
+# Node
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Expo
+.expo/
+.expo-shared/
+frontend/.expo-web-check/
+dist/
+web-build/
+
+# React Native
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Android
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+
+# iOS
+ios/Pods/
+ios/build/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

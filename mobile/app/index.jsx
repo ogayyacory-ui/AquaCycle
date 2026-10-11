@@ -5,6 +5,6 @@ import {
 export default function Index() {
 
   return (
-    <Redirect href="/(tabs)/home" />
+    <Redirect href="/auth/login" />
   );
 }

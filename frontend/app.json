@@ -26,6 +26,8 @@
     },
     "plugins": [
       "expo-router",
+      ["expo-location", { "locationWhenInUsePermission": "Allow AquaCycle to use your location for weather and reports." }],
+      ["expo-image-picker", { "photosPermission": "Allow AquaCycle to attach photos to water reports." }],
       [
         "expo-splash-screen",
         {

@@ -99,3 +99,33 @@ export async function getImpact() {
 
   return response.data;
 }
+
+export async function getWeather(latitude, longitude) {
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+    throw new Error("A valid GPS location is required to load local weather.");
+  }
+
+  if (API_URL.includes("YOUR_COMPUTER_IP")) {
+    throw new Error(
+      "Set EXPO_PUBLIC_API_URL to your computer's LAN address, such as http://192.168.1.10:5000/api."
+    );
+  }
+
+  try {
+    const response = await api.get("/weather", {
+      params: { latitude, longitude },
+    });
+
+    if (!response.data?.success || !response.data?.data) {
+      throw new Error(response.data?.error || "Unable to retrieve local weather.");
+    }
+
+    return response.data.data;
+  } catch (error) {
+    const serverMessage = error.response?.data?.error;
+    if (serverMessage) {
+      throw new Error(serverMessage);
+    }
+    throw error;
+  }
+}

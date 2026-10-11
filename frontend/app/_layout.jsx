@@ -3,11 +3,13 @@ import {
 } from "expo-router";
 
 import { COLORS } from "../constants/colors";
+import { AuthProvider } from "../context/AuthContext";
 
 
 export default function RootLayout() {
 
   return (
+    <AuthProvider>
     <Stack
       screenOptions={{
         headerStyle: {
@@ -32,6 +34,8 @@ export default function RootLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen name="auth/signup" options={{ headerShown: false }} />
+      <Stack.Screen name="auth/login" options={{ headerShown: false }} />
 
       <Stack.Screen
         name="events/index"
@@ -81,7 +85,10 @@ export default function RootLayout() {
           title: "AquaAI",
         }}
       />
+      <Stack.Screen name="map" options={{ headerShown: false }} />
+      <Stack.Screen name="profile" options={{ headerShown: false }} />
 
     </Stack>
+    </AuthProvider>
   );
 }

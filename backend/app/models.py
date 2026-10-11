@@ -1,6 +1,32 @@
 from datetime import datetime
 
 from .extensions import db
+from werkzeug.security import generate_password_hash, check_password_hash
+
+
+class User(db.Model):
+    __tablename__ = "users"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150), nullable=False)
+    email = db.Column(db.String(200), nullable=False, unique=True, index=True)
+    phone = db.Column(db.String(40), nullable=False, default="")
+    password_hash = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "phone": self.phone or "",
+        }
 
 
 # ============================================================
@@ -198,6 +224,11 @@ class WaterReport(db.Model):
         nullable=True
     )
 
+    video_url = db.Column(
+        db.String(500),
+        nullable=True
+    )
+
     status = db.Column(
         db.String(50),
         nullable=False,
@@ -224,6 +255,7 @@ class WaterReport(db.Model):
             "latitude": self.latitude,
             "longitude": self.longitude,
             "photo_url": self.photo_url,
+            "video_url": self.video_url,
             "status": self.status,
             "created_at": self.created_at.isoformat()
         }
