@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ImageBackground, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ImageBackground, ScrollView, StyleSheet, Text as NativeText, TouchableOpacity, useWindowDimensions, View } from "react-native";
 import { router } from "expo-router";
 import * as Location from "expo-location";
 
@@ -11,7 +11,22 @@ const actions = [
   ["⌖", "View\nMap", "/map"],
   ["▣", "Events", "/events"],
   ["◈", "AI\nAssistant", "/advisor"],
+  ["🛠", "Officer\nPortal", "/officer"],
 ];
+
+function Text({ style, ...props }) {
+  const { width } = useWindowDimensions();
+  const scale = width >= 1200 ? 1.22 : width >= 768 ? 1.12 : 1;
+  const resolvedStyle = StyleSheet.flatten(style);
+  const fontSize = resolvedStyle?.fontSize;
+  if (!fontSize) return <NativeText {...props} style={style} />;
+
+  const scaledStyle = {
+    fontSize: Math.round(fontSize * scale),
+    ...(resolvedStyle.lineHeight && { lineHeight: Math.round(resolvedStyle.lineHeight * scale) }),
+  };
+  return <NativeText {...props} style={[style, scaledStyle]} />;
+}
 
 export default function HomeScreen() {
   const { user } = useAuth();

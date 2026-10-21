@@ -51,6 +51,15 @@ export const createEvent = async (eventData) => {
 };
 
 
+export const deleteEvent = async (eventId) => {
+  const response = await api.delete(
+    `/api/events/${eventId}`
+  );
+
+  return response.data;
+};
+
+
 export const registerForEvent = async (
   eventId,
   registrationData
@@ -81,6 +90,23 @@ export const createReport = async (reportData) => {
   const response = await api.post(
     "/api/reports",
     reportData
+  );
+
+  return response.data;
+};
+
+export const getReport = async (reportId) => {
+  const response = await api.get(
+    `/api/reports/${reportId}`
+  );
+
+  return response.data;
+};
+
+export const updateReportStatus = async (reportId, statusData) => {
+  const response = await api.patch(
+    `/api/reports/${reportId}/status`,
+    statusData
   );
 
   return response.data;

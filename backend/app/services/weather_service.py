@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import requests
 
 
@@ -216,7 +218,15 @@ def get_weather(latitude, longitude):
             timeout=10,
         )
         response.raise_for_status()
-        return normalize_weather(response.json())
+        weather_data = normalize_weather(response.json())
+        weather_data["source"] = "Open-Meteo"
+        weather_data["last_updated"] = datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+        weather_data["forecast_period"] = "7-day"
+        weather_data["disclaimer"] = (
+            "Weather data provides situational context only and must not be used alone to "
+            "declare a drinking-water source safe or unsafe."
+        )
+        return weather_data
     except requests.RequestException as error:
         raise RuntimeError(
             "The weather provider could not be reached. "

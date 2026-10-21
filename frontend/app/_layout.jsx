@@ -66,6 +66,27 @@ export default function RootLayout() {
       />
 
       <Stack.Screen
+        name="report/[id]"
+        options={{
+          title: "Report Details",
+        }}
+      />
+
+      <Stack.Screen
+        name="officer/queue"
+        options={{
+          title: "Incident Queue",
+        }}
+      />
+
+      <Stack.Screen
+        name="officer/admin"
+        options={{
+          title: "Operations Overview",
+        }}
+      />
+
+      <Stack.Screen
         name="solutions/index"
         options={{
           title: "Solutions",
@@ -83,6 +104,12 @@ export default function RootLayout() {
         name="advisor/index"
         options={{
           title: "AquaAI",
+        }}
+      />
+      <Stack.Screen
+        name="officer/index"
+        options={{
+          title: "Officer Dashboard",
         }}
       />
       <Stack.Screen name="map" options={{ headerShown: false }} />

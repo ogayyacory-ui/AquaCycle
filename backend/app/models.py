@@ -1,7 +1,14 @@
+import secrets
 from datetime import datetime
 
+from werkzeug.security import check_password_hash, generate_password_hash
+
 from .extensions import db
-from werkzeug.security import generate_password_hash, check_password_hash
+
+
+def generate_tracking_number():
+    timestamp = datetime.utcnow().strftime("%Y%m%d")
+    return f"AQC-{timestamp}-{secrets.token_hex(3).upper()}"
 
 
 class User(db.Model):
@@ -189,6 +196,14 @@ class WaterReport(db.Model):
         primary_key=True
     )
 
+    tracking_number = db.Column(
+        db.String(32),
+        nullable=False,
+        unique=True,
+        index=True,
+        default=generate_tracking_number
+    )
+
     problem_type = db.Column(
         db.String(100),
         nullable=False
@@ -207,6 +222,12 @@ class WaterReport(db.Model):
     urgency = db.Column(
         db.String(50),
         nullable=False
+    )
+
+    source = db.Column(
+        db.String(50),
+        nullable=False,
+        default="citizen"
     )
 
     latitude = db.Column(
@@ -235,10 +256,55 @@ class WaterReport(db.Model):
         default="reported"
     )
 
+    verified = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=False
+    )
+
+    assigned_to = db.Column(
+        db.String(200),
+        nullable=True
+    )
+
+    risk_score = db.Column(
+        db.Float,
+        nullable=True
+    )
+
+    observation_time = db.Column(
+        db.DateTime,
+        nullable=True
+    )
+
+    location_accuracy_m = db.Column(
+        db.Float,
+        nullable=True
+    )
+
+    resolution_note = db.Column(
+        db.Text,
+        nullable=True
+    )
+
     created_at = db.Column(
         db.DateTime,
         nullable=False,
         default=datetime.utcnow
+    )
+
+    updated_at = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow
+    )
+
+    audit_logs = db.relationship(
+        "ReportAuditLog",
+        backref="report",
+        lazy=True,
+        cascade="all, delete-orphan"
     )
 
     # ---------------------------------------
@@ -248,14 +314,44 @@ class WaterReport(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
+            "tracking_number": self.tracking_number,
             "problem_type": self.problem_type,
             "location": self.location,
             "description": self.description,
             "urgency": self.urgency,
+            "source": self.source,
             "latitude": self.latitude,
             "longitude": self.longitude,
             "photo_url": self.photo_url,
             "video_url": self.video_url,
             "status": self.status,
-            "created_at": self.created_at.isoformat()
+            "verified": self.verified,
+            "assigned_to": self.assigned_to,
+            "risk_score": self.risk_score,
+            "observation_time": self.observation_time.isoformat() if self.observation_time else None,
+            "location_accuracy_m": self.location_accuracy_m,
+            "resolution_note": self.resolution_note,
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None
+        }
+
+
+class ReportAuditLog(db.Model):
+    __tablename__ = "report_audit_logs"
+
+    id = db.Column(db.Integer, primary_key=True)
+    report_id = db.Column(db.Integer, db.ForeignKey("water_reports.id"), nullable=False)
+    action = db.Column(db.String(100), nullable=False)
+    actor = db.Column(db.String(100), nullable=False, default="system")
+    details = db.Column(db.Text, nullable=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "report_id": self.report_id,
+            "action": self.action,
+            "actor": self.actor,
+            "details": self.details,
+            "created_at": self.created_at.isoformat(),
         }

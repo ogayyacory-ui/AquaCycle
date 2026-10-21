@@ -1,8 +1,11 @@
 import os
 
+from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
 from sqlalchemy import inspect, text
+
+load_dotenv()
 
 from .extensions import db
 from app.routes.advisor import advisor_bp
@@ -141,8 +144,59 @@ def create_app():
             db.session.execute(
                 text("ALTER TABLE water_reports ADD COLUMN video_url VARCHAR(500)")
             )
+        if "tracking_number" not in report_columns:
+            db.session.execute(
+                text("ALTER TABLE water_reports ADD COLUMN tracking_number VARCHAR(32)")
+            )
+        if "source" not in report_columns:
+            db.session.execute(
+                text("ALTER TABLE water_reports ADD COLUMN source VARCHAR(50) NOT NULL DEFAULT 'citizen'")
+            )
+        if "verified" not in report_columns:
+            db.session.execute(
+                text("ALTER TABLE water_reports ADD COLUMN verified BOOLEAN NOT NULL DEFAULT 0")
+            )
+        if "assigned_to" not in report_columns:
+            db.session.execute(
+                text("ALTER TABLE water_reports ADD COLUMN assigned_to VARCHAR(200)")
+            )
+        if "risk_score" not in report_columns:
+            db.session.execute(
+                text("ALTER TABLE water_reports ADD COLUMN risk_score FLOAT")
+            )
+        if "observation_time" not in report_columns:
+            db.session.execute(
+                text("ALTER TABLE water_reports ADD COLUMN observation_time DATETIME")
+            )
+        if "location_accuracy_m" not in report_columns:
+            db.session.execute(
+                text("ALTER TABLE water_reports ADD COLUMN location_accuracy_m FLOAT")
+            )
+        if "resolution_note" not in report_columns:
+            db.session.execute(
+                text("ALTER TABLE water_reports ADD COLUMN resolution_note TEXT")
+            )
+        if "updated_at" not in report_columns:
+            db.session.execute(
+                text("ALTER TABLE water_reports ADD COLUMN updated_at DATETIME")
+            )
 
-        if "phone" not in user_columns or "video_url" not in report_columns:
+        if any(
+            column not in user_columns for column in ["phone"]
+        ) or any(
+            column not in report_columns for column in [
+                "video_url",
+                "tracking_number",
+                "source",
+                "verified",
+                "assigned_to",
+                "risk_score",
+                "observation_time",
+                "location_accuracy_m",
+                "resolution_note",
+                "updated_at",
+            ]
+        ):
             db.session.commit()
 
     return app

@@ -40,5 +40,40 @@ export default function SignUpScreen() {
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: "#062B47", justifyContent: "flex-end" }, hero: { flex: 0.47, padding: 32, justifyContent: "center", backgroundColor: "#087EAC" }, mark: { color: "#DFF9FF", fontSize: 56, textAlign: "center" }, brand: { color: "#FFF", fontSize: 34, fontWeight: "800", textAlign: "center", marginTop: 6 }, heroCopy: { color: "#DFF8FF", textAlign: "center", marginTop: 10, fontSize: 14 }, sheet: { flex: 0.58, backgroundColor: "#F7FCFE", borderTopLeftRadius: 30, borderTopRightRadius: 30, padding: 25, paddingTop: 30 }, title: { color: "#082F49", fontSize: 27, fontWeight: "800" }, subtitle: { color: "#66808E", marginTop: 6, marginBottom: 23 }, input: { height: 51, borderRadius: 12, borderWidth: 1, borderColor: "#D4E7EE", backgroundColor: "#FFF", paddingHorizontal: 15, color: "#082F49", marginBottom: 12 }, primary: { height: 51, borderRadius: 13, backgroundColor: "#009EDF", alignItems: "center", justifyContent: "center", marginTop: 4 }, dim: { opacity: 0.65 }, primaryText: { color: "#FFF", fontWeight: "800", fontSize: 15 }, google: { marginTop: 12 }, foot: { textAlign: "center", color: "#647B88", marginTop: 18 }, link: { color: "#008FCE", fontWeight: "800" },
+  screen: {
+    flex: 1,
+    backgroundColor: "#062B47",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  hero: {
+    width: "100%",
+    maxWidth: 920,
+    padding: 32,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#087EAC",
+  },
+  mark: { color: "#DFF9FF", fontSize: 56, textAlign: "center" },
+  brand: { color: "#FFF", fontSize: 34, fontWeight: "800", textAlign: "center", marginTop: 6 },
+  heroCopy: { color: "#DFF8FF", textAlign: "center", marginTop: 10, fontSize: 14 },
+  sheet: {
+    width: "100%",
+    maxWidth: 920,
+    backgroundColor: "#F7FCFE",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    padding: 25,
+    paddingTop: 30,
+    alignSelf: "center",
+  },
+  title: { color: "#082F49", fontSize: 27, fontWeight: "800" },
+  subtitle: { color: "#66808E", marginTop: 6, marginBottom: 23 },
+  input: { height: 51, borderRadius: 12, borderWidth: 1, borderColor: "#D4E7EE", backgroundColor: "#FFF", paddingHorizontal: 15, color: "#082F49", marginBottom: 12 },
+  primary: { height: 51, borderRadius: 13, backgroundColor: "#009EDF", alignItems: "center", justifyContent: "center", marginTop: 4 },
+  dim: { opacity: 0.65 },
+  primaryText: { color: "#FFF", fontWeight: "800", fontSize: 15 },
+  google: { marginTop: 12 },
+  foot: { textAlign: "center", color: "#647B88", marginTop: 18 },
+  link: { color: "#008FCE", fontWeight: "800" },
 });

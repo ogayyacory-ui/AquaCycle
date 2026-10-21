@@ -33,6 +33,23 @@ def get_event(event_id):
     return jsonify(event.to_dict())
 
 
+@events_bp.delete("/<int:event_id>")
+def delete_event(event_id):
+    event = Event.query.get(event_id)
+
+    if not event:
+        return jsonify({
+            "error": "Event not found"
+        }), 404
+
+    db.session.delete(event)
+    db.session.commit()
+
+    return jsonify({
+        "message": "Event deleted successfully"
+    })
+
+
 @events_bp.post("")
 def create_event():
     data = request.get_json() or {}
